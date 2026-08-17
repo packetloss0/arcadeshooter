@@ -10,3 +10,6 @@ DevLogs:
 
 Game Design Document:
 [GDD](https://github.com/packetloss0/arcadeshooter/blob/main/blogs-and-gdd/gdd_final.pdf)
+
+Video presentation:
+[Youtube](https://youtu.be/aCwSlcEYb1o)
