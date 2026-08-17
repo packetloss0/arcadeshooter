@@ -1,50 +1,12 @@
-Project made for GDM.
+# arcade shooter
+My reinterpretation of a classic arcade shooter games, made as a project for GDM.
 
-Blog Post 1:
-The plan for the first milestone was small on purpose: an arena, player controller, one weapon, one enemy that chases, health and death. Arcade Shooter is my reinterpretation of classic arcade shooter games, but with higher mobility and with one joystick in mind, so aiming had to be rethought from scratch before anything else got built.
+DevLogs:
 
-My first attempt was the classic shoot in the direction you’re moving. It felt terrible. You cannot retreat and fight at the same time so every fight was running in circles and firing at nothing. The fix ended up being the design pillar of the whole game: hold fire and player stops in place, and the stick becomes an aim stick instead of a move stick. I took inspiration directly from cuphead where players can hold a button to allow for firing in any direction. Suddenly shooting had a cost. You had to trade mobility for damage, and where you chose to stand matters more than how fast you can react.
+BlogPost 1
+BlogPost 2
+BlogPost 3
+BlogPost 4
 
-Getting there was a bit rocky at the beginning, there was one bug that ate a bit of my time.
-Using Unity’s Input System with the “Send Messages” behaviour caused the fire button to get stuck on press and fired indefinitely. The press message was registered but the release message was not. Rather than fight it I just dropped the message based approach and subscribed directly to the actions callbacks, which gave me “FireHeld” boolean I could actually trust. I also added an input debug log to the console which proved quite useful that I didn't have to question if the game was wrong or my input, especially since I was fighting with Switch Pro Controller drivers on linux. 
-
-The last thing I did before closing the milestone was to scale the arena up multiple times. The player and enemies were far too large relative to the play space, which made everything feel cramped. 
-
-Blog Post 2:
-With the first milestone I had something playable but it lacked everything that would make it into a game, with the second milestone I was able to turn this simple concept into a quite fun game.
-Difficulty scales with time survived, not the wave number. This is something I included in the GDD and I’m glad I stuck to it. Scaling with wave numbers would reward players by playing slowly and carefully, with scaling it with time it meant that the pressure keeps rising whether you engage or not. Spawn rate, enemy speed and enemy health all ramp up with their own curves, and new enemy types unlock in “difficulty tiers” so each minute of a run introduces one new idea rather than dumping everything all at once.
-
-I came up with 3 simple but effective designs for enemies. Chaser is a simple enemy that damages on contact and goes in the direction of the player at all times. Recently I’ve been playing left for dead with my friends so the idea of Spitter came out naturally, its an enemy that keeps its distance and shoots at a player. The last enemy design I came up with was the Bomber which is directly inspired by a creeper from Minecraft, it comes fast at a player and once in close range it explodes. I really liked the idea of it clearing other enemies since it adds a nice skill expression of trying to detonate them in clusters of enemies. When playtesting I realised that bombers can kill each other in their blasts so naturally i came up with an idea for them to “chain” their explosions, with one lucky shot killing a bunch of enemies felt really good. Each enemy runs a small state machine (spawn, chase, attack / fuse, death), and local separation steering so they don’t stack onto each other.
-
-First I wanted to go with the easiest solution and just put enemies in corners of the arena. When I was playtesting it I found it incredibly easy to just stand in the middle of the arena and almost no enemies could touch me. I quickly realised that I need to figure out how to spawn enemies anywhere in the arena. After implementing that it finally pushed the player to move around the arena but the enemies spawns felt a bit too random at times so I had to create a “countdown” telegraph marker that shows when enemies appear, and spawn protections to not spawn enemies at position of the player. There’s no safe corners anymore, and no unfair ambush either since you always get a warning. 
-
-Then the scaling systems. PowerUps give a large temporary boost that decays into a small permanent one, so a long run visibly changes what the player is capable of and allows to ramp up the game with difficulty. I came up with 5 powerup ideas instead of planned 3: Penetration bullets, fire rate increase, player movement speed increase, bouncing bullets and a heal. Weapons grew to three with a shotgun and a grenade launcher which I planned to create pickups for in the beginning but decided to give all to the player from the start.
-
-I’m quite happy with how I managed the coin economy in the game. Enemies have a chance to drop a “coin” that charges up a powerful shockwave ability, once the meter is full every extra coin converts into additional score instead. It added another layer of skill expression / chance to the game that player could either farm the score without using the ability or kill a bunch of enemies all at once and perhaps fill up the meter quite quickly again! It also functions as a “panic button” very well, when overwhelmed with enemies it allows the player to move around the arena freely again.
-Everything I mentioned (weapons, enemies, waves, powerups) are created using the scriptable objects, so tuning those is trivial and allows for easier future expansion. Given how many balance passes I had to make, that decision paid off.
-
-Plog Post 3:
-
-In the last milestone I had no new mechanics in it at all. I wanted to fully focus on the game feel which is an incredibly important step that might sound easy but I see it executed poorly too often.
-
-The juice pass came first. Screen shake, white flash on hit, floating score numbers, red vignette that pulses when you take a damage and making the UI look and present information better. One of the last but not least things I added was the “hit stop” mechanic, which is one of my favourites when used correctly. I had to be cautious not to over use it so I decided to use it in basically only one area of the game. Like I mentioned in the previous milestone one of the things that stood out to me was how good it felt to chain the Bombers explosions, I decided to make it so whenever more than one Bomber explodes at the same time there’s a small window of a hit stop, it added soo much impact to it and it is my favourite effect I did for the game. My first  version tried to count explosions inside a time window, which I had problems getting to work, because a chain isn’t simultaneous but a frame apart. The fix was to stop counting and make it deterministic, explosion checks whether it killed a Bomber, and if it did it calls the hit stop. It naturally applied during a shockwave, so wiping a screen full of Bombers stutters on each one of them which just feels fantastic in action. 
-I also tried adding the knockback to the shotgun. It felt good in isolation anddd it ruined everything else… enemies shoved out of formation, chains were breaking, positioning became unreadable, bouncing bullets were causing a lot of chaos, Spitters when standing in place had their gravity turned off so they were just flying around the Arena when hit with a shotgun bullet. I scrapped that completely, sometimes ideas are just not meant to be!
-
-Audio got a lot of treatment in this milestone. I added two tracks for the main menu and gameplay music. I really focused on finding the perfect music for what I had in mind. I decided to go with a local Aarhus artist “One-Touch” and their two tracks “Backing it” and “Knot”. “Knot” instantly worked for me in game since its a drum and bass track that has lots of unique sections in it that give so much to the gameplay flow, I tried to time the music so the waves follow roughly the time it takes for different sections of the song. Initially when dying, music was instantly going to the main menu music which felt a bit too much, I instantly thought of Balatro and how the music works there. When you pause or die the music pitches down and slows down like a vinyl record, and spins back up starting when you hit retry. It turned out to be incredibly easy to implement, and its a detail that my friends playtesting the game commented on. A separate but had the gameplay tack stalling for a second the first time I played, a 12 MB clip set to Decompress On Load, fixed by just switching it to streaming and warming both clips up on boot.
-
-Then menus, all navigable by stick and one button, since the cabinet has no mouse. Towards the end I also added a run statistics for the game over screen that reveal line by line. 
-Shipping to WebGL produced the strangest bug I’ve ever seen. In the browser the game instantly skipped the menu and the player started firing every weapon at an impossible rate. I tracked down two causes. First was the browser gamepad api, when I disconnected my controller suddenly everything worked fine, so I had to add some deadzones and press thresholds to the bindings. Second I overlooked that swapping weapons reset the fire cooldown, so mashing swap fired every frame, it took one line of code to fix.
-
-Post 4: Conclusion
-Nothing is ever fully done, you just need to say stop at some point. I feel like I could tweak that game forever and I have so many ideas in my head for how I would like to expand the game. But for the university project purposes I have to say stop! 
-
-Controls:
-Left joystick / wasd - Movement
-South Button / space - Hold to Aim / Accept
-Left Button / Q - Cycle Though Weapons
-Right Button / Shift - Activate Shockwave
-Start / Enter - Pause menu
-
-Looking back at the GDD I wrote before starting, most of it survived, but I had to change a few things up along the way. What I would do differently is to build the feedback layer a bit earlier. I treated the juice pass as a final polish milestone, but hit stop and screen shake changed how the combat itself read, which meant I was still making balance decisions when I realised how the combat feel shifted. The biggest lesson wasn’t technical, but two great design decisions I’ve made - the move or aim mechanic and coin economy/shockwave management are both single sentences of a design that cost almost no code at all. Which just shows that sometimes the best solutions are the easiest ones!
-
-Thanks for reading and enjoy the game!
+Game Design Document:
+GDD
