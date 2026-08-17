@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9b93f465fd73042899b01c0c92d266, type: 3}
+  m_Name: Bomber
+  m_EditorClassIdentifier: Assembly-CSharp::ArcadeShooter.Enemies.EnemyData
+  displayName: Bomber
+  enemyPrefab: {fileID: 6901000000000001, guid: d40b4474ef2840f7b872796e1b4654df, type: 3}
+  health: 4
+  scoreValue: 300
+  scorePopupColor: {r: 1, g: 0.9, b: 0.3, a: 1}
+  moveSpeed: 6
+  contactDamage: 8
+  spawnInterval: 0.5
+  attackRange: 6
+  attackCooldown: 3
+  explodesNearPlayer: 1
+  explodeRange: 2.2
+  fuseTime: 0.9
+  deathSound: {fileID: 8300000, guid: 75b3b6f4bea7b524f8dcb677f4949b8c, type: 3}
